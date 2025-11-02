@@ -251,6 +251,7 @@ static inline cmd cmd_new(
 static inline void cmd_free(cmd cmd) {
     for (size_t i = 0; i < cmd->cmds_len; i++) {
         cmd_free(cmd->cmds[i]);
+        free(cmd->args[i]);
     }
 
     free(cmd->args);

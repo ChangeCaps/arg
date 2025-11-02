@@ -51,6 +51,8 @@ int main(int argc, const char** argv) {
 
     cmd_parse(main, argc, argv);
 
+    cmd_free(main);
+
     printf("input: %s\n", args.input);
     printf("output: %s\n", args.output);
 
