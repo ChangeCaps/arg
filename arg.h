@@ -590,7 +590,6 @@ static inline int cmd__parse_arg(
         fprintf(stderr, "\e[0;36m");
 
         if (arg__is_option(arg)) {
-            fprintf(stderr, "%s", argv[-1]);
             if (arg->usage) fprintf(stderr, " %s", arg->usage);
         } else {
             if (arg->usage) fprintf(stderr, "%s", arg->usage);
