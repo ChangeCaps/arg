@@ -282,8 +282,11 @@ static inline void cmd_fprint_usage(
     cmd__fprint_path(file, cmd);
 
     for (size_t i = 0; i < cmd->args_len; i++) {
-        if (arg__is_option(cmd->args[i])) continue;
-        fprintf(file, " <%s>", cmd->args[i]->name);
+        arg arg = cmd->args[i];
+
+        if (arg__is_option(arg)) continue;
+        if (arg->usage) fprintf(file, " %s", arg->usage);
+        else            fprintf(file, " <%s>", arg->name);
     }
 
     if (cmd__option_count(cmd) > 0) {
