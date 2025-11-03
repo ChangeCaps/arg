@@ -673,7 +673,7 @@ static inline int cmd__parse_short(
             goto end;
         }
 
-        arg_err("no such option: `%s`\n\n", argv[0]);
+        arg_err("no such option: `-%c`\n\n", argv[0][i]);
         cmd_fprint_usage(stderr, cmd);
         exit(0);
 
