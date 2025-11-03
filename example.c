@@ -16,7 +16,7 @@ struct args {
 int main(int argc, const char** argv) {
     struct args args = {0};
 
-    cmd main         = cmd_new("example");
+    cmd main = cmd_new("example");
     cmd_desc(
         main,
         "Example\n"
