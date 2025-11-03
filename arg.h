@@ -99,7 +99,7 @@ static inline void cmd_fprint_arguments(
 
             if (arg->help) {
                 for (size_t j = len; j < 32; j++) fprintf(file, " ");
-                fprintf(file, "%s", arg->help);
+                fprintf(file, " %s", arg->help);
             }
 
             fprintf(file, "\n");
@@ -153,7 +153,7 @@ static inline void cmd_fprint_options(
 
             if (arg->help) {
                 for (size_t j = len; j < 32; j++) fprintf(file, " ");
-                fprintf(file, "%s", arg->help);
+                fprintf(file, " %s", arg->help);
             }
 
             fprintf(file, "\n");
@@ -182,7 +182,7 @@ static inline void cmd_fprint_commands(
 
             if (subcmd->help) {
                 for (size_t j = len; j < 32; j++) fprintf(file, " ");
-                fprintf(file, "%s", subcmd->help);
+                fprintf(file, " %s", subcmd->help);
             }
 
             fprintf(file, "\n");
