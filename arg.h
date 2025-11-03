@@ -731,7 +731,13 @@ static inline void cmd_parse(
         index++;
 
         if (arg__is_option(arg)) continue;
-        if (arg->parser.count == 0) continue;
+        if (arg->parser.count == 0) {
+            if (arg->parser.parse) {
+                cmd__parse_arg(cmd, arg, 0, NULL);
+            }
+
+            continue;
+        }
 
         arg_err("the following arguments were not provided:\n"); 
         fprintf(stderr, "\e[0;36m");
