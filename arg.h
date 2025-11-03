@@ -66,24 +66,24 @@ struct arg_parser {
 // Argument in a `cmd`.
 struct arg {
     // Name of the argument.
-    const char*       name; 
+    const char* name;
     // Help message of the argument.
-    const char*       help;
+    const char* help;
     // Usage message of the argument.
-    const char*       usage;
+    const char* usage;
 
     // Short name of the argument, `'\0'` if not set.
-    char              short_name;
+    char        short_name;
     // Long name of the argument, may be `NULL`.
-    const char*       long_name;
+    const char* long_name;
 
     // Set when argument is parsed.
-    bool*             check;
+    bool*       check;
 
     // User data of the parser.
-    void*             data;
+    void*       data;
     // Argument parser.
-    arg_parser        parser;
+    arg_parser  parser;
 };
 
 // Command line command.
@@ -117,6 +117,17 @@ struct cmd {
     // Parent command, may be `NULL`.
     cmd         parent;
 };
+
+// Parser for required `const char*`.
+static const arg_parser arg_str;
+// Parser for required `int`.
+static const arg_parser arg_int;
+// Parser for number of instances, e.g. `-vvv` parsed as 3.
+static const arg_parser arg_count;
+// Parser for required `float`.
+static const arg_parser arg_float;
+
+/* ----- implementation ----- */
 
 // Check if an `arg` is an option.
 static inline bool arg__is_option(const arg arg) {
