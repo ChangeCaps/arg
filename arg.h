@@ -523,7 +523,6 @@ static inline int cmd_parse_arg(
         fprintf(stderr, "\e[0;0m");
         fprintf(stderr, "\n\n");
 
-
         cmd_fprint_usage(stderr, cmd);
         exit(0);
     }

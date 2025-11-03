@@ -64,7 +64,8 @@ int main(int argc, const char** argv) {
         "This is a subcommand."
     );
 
-    cmd_arg(sub, "a");
+    arg a = cmd_arg(sub, "a");
+    arg_value(a, &args.output, arg_str);
 
     if (!cmd_validate(main)) return 1;
     cmd_parse(main, argc, argv);
