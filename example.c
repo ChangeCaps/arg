@@ -17,7 +17,6 @@ int main(int argc, const char** argv) {
     struct args args = {0};
 
     cmd main = cmd_new("example");
-    cmd_help(main, "Example of arg library");
     cmd_desc(
         main,
         "Example\n"
