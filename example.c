@@ -18,6 +18,12 @@ int main(int argc, const char** argv) {
 
     cmd main = cmd_new("example");
     cmd_help(main, "Example of arg library");
+    cmd_desc(
+        main,
+        "Example\n"
+        "\n"
+        "This is an example."
+    );
 
     arg input = cmd_arg(main, "input");
     arg_help (input, "input file");
@@ -49,6 +55,18 @@ int main(int argc, const char** argv) {
     arg_short(c, 'c');
     arg_value(c, &args.c, arg_count);
 
+    cmd sub = cmd_subcmd(main, "sub");
+    cmd_help(sub, "subcommand");
+    cmd_desc(
+        sub,
+        "Subcommand\n"
+        "\n"
+        "This is a subcommand."
+    );
+
+    cmd_arg(sub, "a");
+
+    if (!cmd_validate(main)) return 1;
     cmd_parse(main, argc, argv);
 
     cmd_free(main);
