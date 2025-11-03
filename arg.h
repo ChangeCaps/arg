@@ -87,15 +87,18 @@ static inline void cmd_fprint_arguments(
             if (arg_is_option(arg)) continue;
 
             fprintf(file, "\e[0;36m");
-            fprintf(file, "  <%s>", arg->name);
-            fprintf(file, "\e[0;0m");
 
-            size_t len = 2 + strlen(arg->name);
+            size_t len = 0;
 
             if (arg->usage) {
-                fprintf(file, " %s", arg->usage);
-                len += 1 + strlen(arg->usage);
+                fprintf(file, "  %s", arg->usage);
+                len += strlen(arg->usage);
+            } else {
+                fprintf(file, "  <%s>", arg->name);
+                len += 2 + strlen(arg->name);
             }
+
+            fprintf(file, "\e[0;0m");
 
             if (arg->help) {
                 for (size_t j = len; j < 32; j++) fprintf(file, " ");
@@ -505,22 +508,21 @@ static inline int cmd_parse_arg(
     const char** argv
 ) {
     if (argc < (int) arg->parser.count) {
+        arg_err("too few arguments, expected:\n");
+        fprintf(stderr, "  ");
+        fprintf(stderr, "\e[0;36m");
+
         if (arg_is_option(arg)) {
-            arg_err("too few arguments, expected: ");
-            fprintf(stderr, "\e[0;36m");
             fprintf(stderr, "%s", argv[-1]);
-
-            if (arg->usage) {
-                fprintf(
-                    stderr,
-                    " %s",
-                    arg->usage
-                );
-            }
-
-            fprintf(stderr, "\e[0;0m");
-            fprintf(stderr, "\n\n");
+            if (arg->usage) fprintf(stderr, " %s", arg->usage);
+        } else {
+            if (arg->usage) fprintf(stderr, "%s", arg->usage);
+            else            fprintf(stderr, "<%s>", arg->name);
         }
+
+        fprintf(stderr, "\e[0;0m");
+        fprintf(stderr, "\n\n");
+
 
         cmd_fprint_usage(stderr, cmd);
         exit(0);
@@ -667,7 +669,10 @@ static inline void cmd_parse(
 
         arg_err("the following arguments were not provided:\n"); 
         fprintf(stderr, "\e[0;36m");
-        fprintf(stderr, "  <%s>\n\n", arg->name);
+
+        if (arg->usage) fprintf(stderr, "  %s\n\n", arg->usage);
+        else            fprintf(stderr, "  <%s>\n\n", arg->name);
+
         fprintf(stderr, "\e[0;0m");
 
         cmd_fprint_usage(stderr, cmd);
