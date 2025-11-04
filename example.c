@@ -27,33 +27,25 @@ int main(int argc, const char** argv) {
     cmd_add_help_subcmd(main);
 
     arg input = cmd_arg(main, "input");
-    arg_help(input, "input file");
+    arg_parse(input, "input file");
     arg_value(input, &args.input, arg_str);
 
     arg out = cmd_arg(main, "output");
-    arg_help(out, "output file");
-    arg_usage(out, "<file>");
-    arg_short(out, 'o');
-    arg_long(out, "output");
+    arg_parse(out, "-o, --output  output file");
     arg_value(out, &args.output, arg_str);
 
     arg i = cmd_arg(main, "i");
-    arg_help(i, "some integer");
-    arg_usage(i, "<integer>");
-    arg_short(i, 'i');
+    arg_parse(i, "-i <integer>  some integer");
     arg_check(i, &args.has_i);
     arg_value(i, &args.i, arg_int);
 
     arg f = cmd_arg(main, "f");
-    arg_help(f, "some float");
-    arg_usage(f, "<float>");
-    arg_short(f, 'f');
+    arg_parse(f, "-f <float>  some float");
     arg_check(f, &args.has_f);
     arg_value(f, &args.f, arg_float);
 
     arg c = cmd_arg(main, "c");
-    arg_help(c, "some count");
-    arg_short(c, 'c');
+    arg_parse(c, "-c  some count");
     arg_value(c, &args.c, arg_count);
 
     cmd sub = cmd_subcmd(main, "sub");
