@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ARG_H
+#define ARG_H
 
 #include <stdarg.h>
 #include <stdbool.h>
@@ -75,6 +76,17 @@ static void arg_value(arg arg, void* data, arg_parser parser);
 // Print a formatted argument error.
 static int arg_err(const char* fmt, ...);
 
+// Parser for required `const char*`.
+static const arg_parser arg_str;
+// Parser for required `int`.
+static const arg_parser arg_int;
+// Parser for number of instances, e.g. `-vvv` parsed as 3.
+static const arg_parser arg_count;
+// Parser for required `float`.
+static const arg_parser arg_float;
+
+/* ----- implementation ----- */
+
 // Argument in a `cmd`.
 struct arg {
     // Name of the argument.
@@ -129,17 +141,6 @@ struct cmd {
     // Parent command, may be `NULL`.
     cmd parent;
 };
-
-// Parser for required `const char*`.
-static const arg_parser arg_str;
-// Parser for required `int`.
-static const arg_parser arg_int;
-// Parser for number of instances, e.g. `-vvv` parsed as 3.
-static const arg_parser arg_count;
-// Parser for required `float`.
-static const arg_parser arg_float;
-
-/* ----- implementation ----- */
 
 static inline char* arg__strdup(const char* str) {
     size_t len  = strlen(str) + 1;
@@ -687,7 +688,7 @@ static inline void cmd__print_try_help() {
 }
 
 static inline int cmd__parse_arg(const arg arg, int argc, const char** argv) {
-    if (argc < (int) arg->parser.required) {
+    if (argc < arg->parser.required) {
         arg_err("too few arguments for:\n");
         fprintf(stderr, "  ");
         fprintf(stderr, "\e[0;36m");
@@ -729,7 +730,7 @@ static inline int cmd__parse_arg(const arg arg, int argc, const char** argv) {
         return count;
     }
 
-    return arg->parser.required;
+    return arg->parser.required >= 0 ? arg->parser.required : 0;
 }
 
 static inline int cmd__parse_long(const cmd cmd, int argc, const char** argv) {
@@ -960,3 +961,5 @@ static const arg_parser arg_float = {
     .parse    = arg__parse_float,
     .required = 1,
 };
+
+#endif
